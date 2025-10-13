@@ -1,0 +1,128 @@
+{
+  "name": "Contact Roles",
+  "description": "Available roles for contacts in cases",
+  "version": "1.0.0",
+  "lastUpdated": "2025-10-12",
+  "roles": [
+    {
+      "id": "GAL",
+      "label": "Guardian Ad Litem",
+      "description": "Court-appointed guardian for the child",
+      "category": "legal"
+    },
+    {
+      "id": "FOC",
+      "label": "Friend of the Court",
+      "description": "Court-appointed advocate for child's best interests",
+      "category": "legal"
+    },
+    {
+      "id": "ATTORNEY",
+      "label": "Attorney",
+      "description": "Legal counsel representing parties",
+      "category": "legal"
+    },
+    {
+      "id": "THERAPIST",
+      "label": "Therapist",
+      "description": "Mental health professional providing treatment",
+      "category": "clinical"
+    },
+    {
+      "id": "SOCIAL_WORKER",
+      "label": "Social Worker",
+      "description": "Case worker from child protective services",
+      "category": "social_services"
+    },
+    {
+      "id": "JUDGE",
+      "label": "Judge",
+      "description": "Court judge overseeing the case",
+      "category": "legal"
+    },
+    {
+      "id": "PARENT",
+      "label": "Parent",
+      "description": "Biological or adoptive parent",
+      "category": "family"
+    },
+    {
+      "id": "CHILD",
+      "label": "Child",
+      "description": "Minor child involved in the case",
+      "category": "family"
+    },
+    {
+      "id": "FOSTER_PARENT",
+      "label": "Foster Parent",
+      "description": "Licensed foster care provider",
+      "category": "family"
+    },
+    {
+      "id": "COUNSELOR",
+      "label": "Counselor",
+      "description": "School or family counselor",
+      "category": "clinical"
+    },
+    {
+      "id": "PSYCHOLOGIST",
+      "label": "Psychologist",
+      "description": "Licensed psychologist for evaluation",
+      "category": "clinical"
+    },
+    {
+      "id": "PSYCHIATRIST",
+      "label": "Psychiatrist",
+      "description": "Medical doctor specializing in mental health",
+      "category": "clinical"
+    },
+    {
+      "id": "CASE_WORKER",
+      "label": "Case Worker",
+      "description": "Government or agency case worker",
+      "category": "social_services"
+    },
+    {
+      "id": "MEDIATOR",
+      "label": "Mediator",
+      "description": "Court-appointed mediator",
+      "category": "legal"
+    },
+    {
+      "id": "OTHER",
+      "label": "Other",
+      "description": "Custom role not listed above",
+      "category": "other"
+    }
+  ],
+  "customRoleInstructions": {
+    "title": "How to Add Custom Roles",
+    "description": "To add a new role, add an object to the roles array with these fields:",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "description": "Unique identifier (no spaces, use underscores)",
+        "example": "CUSTOM_ROLE"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Display name for the role",
+        "example": "Custom Role"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "What this role does in the case",
+        "example": "Description of the custom role"
+      },
+      {
+        "name": "category",
+        "type": "string",
+        "description": "Category for organization",
+        "options": ["legal", "clinical", "social_services", "family", "other"]
+      }
+    ]
+  }
+}

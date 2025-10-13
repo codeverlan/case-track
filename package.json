@@ -1,0 +1,41 @@
+{
+  "name": "case-track",
+  "version": "1.0.0",
+  "description": "Mental Health Therapist Case Tracking System",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "setup": "npm run setup:backend && npm run setup:frontend",
+    "setup:backend": "cd backend && npm install && npx prisma generate",
+    "setup:frontend": "cd frontend && npm install",
+    "db:migrate": "cd backend && npx prisma migrate dev",
+    "db:seed": "cd backend && npm run seed",
+    "start": "cd backend && npm start",
+    "deploy:build": "npm run build && mkdir -p deploy/case-track && cp -r backend/dist deploy/case-track/backend/ && cp -r frontend/dist deploy/case-track/frontend/ && cp -r database deploy/case-track/ && cp -r templates deploy/case-track/ && cp package.json deploy/case-track/ && cp LICENSE deploy/case-track/ && cp README.md deploy/case-track/",
+    "deploy:package": "npm run deploy:build && cd deploy && tar -czf case-track-$(git describe --tags --abbrev=0 || echo latest).tar.gz case-track/",
+    "deploy:github": "npm run deploy:package && echo 'Ready to upload to GitHub releases'",
+    "test": "cd frontend && npm test && cd ../backend && npm test",
+    "test:coverage": "cd frontend && npm run test:coverage",
+    "lint": "cd frontend && npm run lint && cd ../backend && npm run lint",
+    "lint:fix": "cd frontend && npm run lint:fix && cd ../backend && npm run lint:fix",
+    "clean": "rm -rf deploy/ && rm -rf frontend/dist/ && rm -rf backend/dist/",
+    "postinstall": "npm run setup"
+  },
+  "keywords": [
+    "therapist",
+    "case-management",
+    "mental-health",
+    "court-tracking",
+    "contact-management"
+  ],
+  "author": "Tyler",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
