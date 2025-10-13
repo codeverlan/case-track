@@ -1,0 +1,128 @@
+{
+  "name": "Evidence Types",
+  "description": "Types of materials reviewed for court cases",
+  "version": "1.0.0",
+  "lastUpdated": "2025-10-12",
+  "types": [
+    {
+      "id": "PDF",
+      "label": "PDF Document",
+      "description": "Portable Document Format files",
+      "icon": "picture_as_pdf",
+      "color": "#d32f2f"
+    },
+    {
+      "id": "AUDIO",
+      "label": "Audio Recording",
+      "description": "Audio files (interviews, sessions, etc.)",
+      "icon": "mic",
+      "color": "#7b1fa2"
+    },
+    {
+      "id": "VIDEO",
+      "label": "Video Recording",
+      "description": "Video files (sessions, meetings, etc.)",
+      "icon": "videocam",
+      "color": "#c2185b"
+    },
+    {
+      "id": "DOCUMENT",
+      "label": "Document",
+      "description": "Text documents, reports, letters",
+      "icon": "description",
+      "color": "#1976d2"
+    },
+    {
+      "id": "IMAGE",
+      "label": "Image",
+      "description": "Photographs, screenshots, diagrams",
+      "icon": "image",
+      "color": "#388e3c"
+    },
+    {
+      "id": "SPREADSHEET",
+      "label": "Spreadsheet",
+      "description": "Excel or CSV files with data",
+      "icon": "table_chart",
+      "color": "#f57c00"
+    },
+    {
+      "id": "PRESENTATION",
+      "label": "Presentation",
+      "description": "PowerPoint or slide presentations",
+      "icon": "slideshow",
+      "color": "#0288d1"
+    },
+    {
+      "id": "EMAIL",
+      "label": "Email",
+      "description": "Email communications or threads",
+      "icon": "email",
+      "color": "#689f38"
+    },
+    {
+      "id": "TEXT_MESSAGE",
+      "label": "Text Message",
+      "description": "SMS or text message transcripts",
+      "icon": "chat",
+      "color": "#00796b"
+    },
+    {
+      "id": "MEDICAL_RECORD",
+      "label": "Medical Record",
+      "description": "Medical or psychological records",
+      "icon": "local_hospital",
+      "color": "#d32f2f"
+    },
+    {
+      "id": "LEGAL_DOCUMENT",
+      "label": "Legal Document",
+      "description": "Court orders, legal filings, contracts",
+      "icon": "gavel",
+      "color": "#424242"
+    },
+    {
+      "id": "OTHER",
+      "label": "Other",
+      "description": "Any other type of material",
+      "icon": "folder",
+      "color": "#757575"
+    }
+  ],
+  "customTypeInstructions": {
+    "title": "How to Add Custom Evidence Types",
+    "description": "To add a new evidence type, add an object to the types array with these fields:",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "description": "Unique identifier (no spaces, use underscores)",
+        "example": "CUSTOM_TYPE"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Display name for the type",
+        "example": "Custom Type"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "What this type of evidence is",
+        "example": "Description of the custom evidence type"
+      },
+      {
+        "name": "icon",
+        "type": "string",
+        "description": "Material Design icon name",
+        "example": "folder"
+      },
+      {
+        "name": "color",
+        "type": "string",
+        "description": "Color code for UI display",
+        "example": "#757575"
+      }
+    ]
+  }
+}

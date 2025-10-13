@@ -1,0 +1,174 @@
+{
+  "name": "Kanban Columns",
+  "description": "Workflow columns for case task management",
+  "version": "1.0.0",
+  "lastUpdated": "2025-10-12",
+  "columns": [
+    {
+      "id": "AGREEMENT_SIGNED",
+      "label": "Agreement Signed",
+      "description": "Client has signed therapy agreement",
+      "color": "#4caf50",
+      "icon": "assignment_turned_in",
+      "position": 0,
+      "defaultTasks": [
+        "Client intake completed",
+        "Therapy agreement signed",
+        "Initial assessment scheduled"
+      ]
+    },
+    {
+      "id": "CLIENT_PAID",
+      "label": "Client Paid",
+      "description": "Payment received for services",
+      "color": "#2196f3",
+      "icon": "payment",
+      "position": 1,
+      "defaultTasks": [
+        "Payment processed",
+        "Invoice sent",
+        "Payment method confirmed"
+      ]
+    },
+    {
+      "id": "WORKING",
+      "label": "Working",
+      "description": "Active therapy work in progress",
+      "color": "#ff9800",
+      "icon": "psychology",
+      "position": 2,
+      "defaultTasks": [
+        "Therapy sessions in progress",
+        "Regular contact with family",
+        "Progress monitoring",
+        "Documentation updates"
+      ]
+    },
+    {
+      "id": "PREPARING",
+      "label": "Preparing",
+      "description": "Preparing court report and/or court date",
+      "color": "#9c27b0",
+      "icon": "gavel",
+      "position": 3,
+      "defaultTasks": [
+        "Court report writing",
+        "Evidence review completed",
+        "Final assessment prepared",
+        "Court date preparation"
+      ]
+    }
+  ],
+  "taskTypes": [
+    {
+      "id": "ASSESSMENT",
+      "label": "Assessment",
+      "description": "Client assessment or evaluation",
+      "color": "#f44336"
+    },
+    {
+      "id": "SESSION",
+      "label": "Therapy Session",
+      "description": "Individual or family therapy session",
+      "color": "#2196f3"
+    },
+    {
+      "id": "DOCUMENTATION",
+      "label": "Documentation",
+      "description": "Report writing or note taking",
+      "color": "#ff9800"
+    },
+    {
+      "id": "COMMUNICATION",
+      "label": "Communication",
+      "description": "Contact with client or other parties",
+      "color": "#4caf50"
+    },
+    {
+      "id": "COURT_PREP",
+      "label": "Court Preparation",
+      "description": "Activities related to court proceedings",
+      "color": "#9c27b0"
+    },
+    {
+      "id": "REVIEW",
+      "label": "Review",
+      "description": "Review of documents or evidence",
+      "color": "#607d8b"
+    },
+    {
+      "id": "OTHER",
+      "label": "Other",
+      "description": "Other types of tasks",
+      "color": "#757575"
+    }
+  ],
+  "customColumnInstructions": {
+    "title": "How to Add Custom Kanban Columns",
+    "description": "To add a new column, add an object to the columns array with these fields:",
+    "fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "description": "Unique identifier (no spaces, use underscores)",
+        "example": "REVIEW_NEEDED"
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "description": "Display name for the column",
+        "example": "Review Needed"
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "What this column represents in workflow",
+        "example": "Items that need review before proceeding"
+      },
+      {
+        "name": "color",
+        "type": "string",
+        "description": "Color code for UI display",
+        "example": "#e91e63"
+      },
+      {
+        "name": "icon",
+        "type": "string",
+        "description": "Material Design icon name",
+        "example": "rate_review"
+      },
+      {
+        "name": "position",
+        "type": "number",
+        "description": "Position in workflow (0 = first)",
+        "example": 2
+      }
+    ]
+  },
+  "workflowInstructions": {
+    "title": "Understanding the Workflow",
+    "description": "The kanban system follows this natural progression:",
+    "steps": [
+      {
+        "step": 1,
+        "column": "AGREEMENT_SIGNED",
+        "description": "Client has agreed to therapy services"
+      },
+      {
+        "step": 2,
+        "column": "CLIENT_PAID",
+        "description": "Payment has been processed for services"
+      },
+      {
+        "step": 3,
+        "column": "WORKING",
+        "description": "Active therapy and case management work"
+      },
+      {
+        "step": 4,
+        "column": "PREPARING",
+        "description": "Final preparation for court proceedings"
+      }
+    ]
+  }
+}

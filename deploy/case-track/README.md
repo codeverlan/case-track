@@ -96,14 +96,14 @@ Located in `templates/reports/`:
 ### 🚀 GitHub Deployment (Recommended)
 
 #### Option 1: Download & Run (5 minutes)
-1. Go to [GitHub Releases](https://github.com/codeverlan/case-track/releases)
+1. Go to [GitHub Releases](https://github.com/yourusername/case-track/releases)
 2. Download the latest `case-track-*.tar.gz` file
 3. Extract and run: `./deploy.sh`
 4. Access at `http://localhost:3001`
 
 #### Option 2: Clone & Build
 ```bash
-git clone https://github.com/codeverlan/case-track.git
+git clone https://github.com/yourusername/case-track.git
 cd case-track
 npm install
 npm run build
