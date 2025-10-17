@@ -21,6 +21,7 @@ import {
   Warning as WarningIcon,
 } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import { SPACING, GRID_SPACING } from '../../utils/spacing'
 
 interface Contact {
   id: number
@@ -98,7 +99,7 @@ const ContactList: React.FC = () => {
 
   return (
     <Box>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={SPACING.lg}>
         <Typography variant="h4" component="h1">
           Contacts
         </Typography>
@@ -112,7 +113,7 @@ const ContactList: React.FC = () => {
         </Button>
       </Box>
 
-      <Box mb={3}>
+      <Box mb={SPACING.lg}>
         <TextField
           fullWidth
           placeholder="Search contacts..."
@@ -136,7 +137,7 @@ const ContactList: React.FC = () => {
         />
       </Box>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={GRID_SPACING.default}>
         {filteredContacts.map((contact) => (
           <Grid item xs={12} sm={6} md={4} key={contact.id}>
             <Card
@@ -159,14 +160,14 @@ const ContactList: React.FC = () => {
                 }
               }}
             >
-              <CardContent>
-                <Stack spacing={2}>
-                  <Box display="flex" alignItems="center" gap={2}>
+              <CardContent sx={{ p: SPACING.md }}>
+                <Stack spacing={SPACING.md}>
+                  <Box display="flex" alignItems="center" gap={SPACING.md}>
                     <Avatar sx={{ bgcolor: 'primary.main' }}>
                       <PersonIcon />
                     </Avatar>
                     <Box flexGrow={1}>
-                      <Box display="flex" alignItems="center" gap={1}>
+                      <Box display="flex" alignItems="center" gap={SPACING.sm}>
                         <Typography variant="h6" component="h2">
                           {contact.name}
                         </Typography>
@@ -193,10 +194,10 @@ const ContactList: React.FC = () => {
                   </Box>
 
                   <Box>
-                    <Typography variant="caption" color="text.secondary" display="block" mb={1}>
+                    <Typography variant="caption" color="text.secondary" display="block" mb={SPACING.sm}>
                       Roles in {contact.roles.length} case{contact.roles.length !== 1 ? 's' : ''}:
                     </Typography>
-                    <Stack spacing={0.5}>
+                    <Stack spacing={SPACING.xs}>
                       {contact.roles.map((role, index) => (
                         <Typography key={index} variant="body2">
                           • {role.role} in {role.caseName}
@@ -212,11 +213,11 @@ const ContactList: React.FC = () => {
       </Grid>
 
       {filteredContacts.length === 0 && (
-        <Box textAlign="center" py={8}>
+        <Box textAlign="center" py={SPACING.xxl}>
           <Typography variant="h6" color="text.secondary" gutterBottom>
             No contacts found
           </Typography>
-          <Typography variant="body2" color="text.secondary" mb={3}>
+          <Typography variant="body2" color="text.secondary" mb={SPACING.lg}>
             {searchQuery
               ? 'Try adjusting your search terms'
               : 'Add your first contact to get started'}
