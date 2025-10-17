@@ -2,15 +2,10 @@
 -- This migration adds CHECK constraints and UPDATE triggers that Prisma doesn't generate
 
 -- Note: The main schema is created by Prisma. This migration adds:
--- 1. CHECK constraints for enum-like fields
--- 2. UPDATE triggers for automatic timestamp updates
-
--- Since SQLite doesn't support adding CHECK constraints to existing tables,
--- and Prisma has already created the tables, we rely on application-level validation
--- for the enum values. The triggers are added here for compatibility with the
--- original schema.sql design.
+-- 1. UPDATE triggers for automatic timestamp updates
 
 -- Triggers for Automatic Timestamp Updates
+-- These ensure updated_at is automatically updated when records change
 
 -- Update trigger for cases table
 CREATE TRIGGER IF NOT EXISTS update_cases_timestamp
@@ -85,3 +80,8 @@ CREATE TRIGGER IF NOT EXISTS update_court_dates_timestamp
 -- Since Prisma doesn't support CHECK constraints and SQLite doesn't allow adding them
 -- to existing tables without recreating the table, these constraints are enforced at
 -- the application level through Prisma validation and TypeScript enums.
+
+-- Note on Seed Data Compatibility:
+-- The Prisma schema requires updated_at to be explicitly set or managed by Prisma Client.
+-- For direct SQL inserts (e.g., seed data), always include updated_at = CURRENT_TIMESTAMP
+-- or use Prisma Client for seeding instead of raw SQL files.

@@ -121,6 +121,32 @@ The original schema includes CHECK constraints for enum-like fields (e.g., case 
 
 The schema uses Prisma's `@updatedAt` decorator which automatically updates the `updated_at` field at the application level. Additionally, SQL triggers are in place for compatibility with direct SQL operations.
 
+**Important:** When inserting data directly via SQL (bypassing Prisma), you must explicitly provide `updated_at` values:
+
+```sql
+-- Correct way to insert via SQL
+INSERT INTO cases (case_name, status, updated_at) 
+VALUES ('Test Case', 'ACTIVE', CURRENT_TIMESTAMP);
+```
+
+### Using Original schema.sql
+
+If you need full SQL compatibility with the original `schema.sql` design (e.g., for using the existing seed data), you can use the original schema instead:
+
+```bash
+# Use original schema.sql instead of Prisma
+cd /home/runner/work/case-track/case-track
+sqlite3 database/casetrack.db < database/schema.sql
+sqlite3 database/casetrack.db < database/seeds/sample_data.sql
+```
+
+This approach provides:
+- DEFAULT CURRENT_TIMESTAMP on all timestamp fields
+- CHECK constraints enforced at the database level  
+- Full compatibility with existing SQL seed files
+
+Choose Prisma for type-safe application development, or use the original schema.sql for direct SQL compatibility.
+
 ## Migration from Legacy SQL
 
 If you're migrating from the original `schema.sql` approach:
