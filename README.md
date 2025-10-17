@@ -138,9 +138,16 @@ docker run -p 3001:3001 case-track
 ```
 
 ### 📋 Full Documentation
+
+**Deployment & Development:**
 - [GitHub Deployment Guide](./GITHUB_DEPLOYMENT.md) - Complete deployment instructions
 - [Yunohost Deployment](./YUNOHOST_DEPLOYMENT.md) - Self-hosting on Yunohost
 - [Development Guide](./DEVELOPMENT.md) - Local development setup
+
+**Design & UX:**
+- [UX/UI Specification](./docs/UX-UI-SPECIFICATION.md) - Complete design system with accessibility & dark mode
+- [UX/UI Implementation Guide](./docs/UX-UI-IMPLEMENTATION-GUIDE.md) - Developer guide with code examples
+- [Documentation Index](./docs/README.md) - All documentation organized by topic
 
 ## Data Privacy
 
