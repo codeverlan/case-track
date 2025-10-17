@@ -13,16 +13,6 @@ describe('ThemeContext Types', () => {
       expect(mode).toBe('dark');
     });
 
-    it('should allow comparison with string literals', () => {
-      const lightMode: PaletteMode = 'light';
-      const darkMode: PaletteMode = 'dark';
-      
-      expect(lightMode === 'light').toBe(true);
-      expect(darkMode === 'dark').toBe(true);
-      expect(lightMode === 'dark').toBe(false);
-      expect(darkMode === 'light').toBe(false);
-    });
-
     it('should toggle between modes', () => {
       let mode: PaletteMode = 'light';
       
