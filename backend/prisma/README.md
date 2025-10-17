@@ -135,9 +135,8 @@ If you need full SQL compatibility with the original `schema.sql` design (e.g., 
 
 ```bash
 # Use original schema.sql instead of Prisma
-cd /home/runner/work/case-track/case-track
-sqlite3 database/casetrack.db < database/schema.sql
-sqlite3 database/casetrack.db < database/seeds/sample_data.sql
+sqlite3 path/to/database/casetrack.db < database/schema.sql
+sqlite3 path/to/database/casetrack.db < database/seeds/sample_data.sql
 ```
 
 This approach provides:
