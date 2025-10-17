@@ -27,7 +27,7 @@ import {
   Brightness7,
 } from '@mui/icons-material'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useThemeMode } from '../../App'
+import { useThemeMode } from '../../contexts/ThemeContext'
 import { SPACING } from '../../utils/spacing'
 
 const drawerWidth = 240
