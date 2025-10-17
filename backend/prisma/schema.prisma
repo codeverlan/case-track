@@ -1,0 +1,200 @@
+// Prisma Schema for Case Track - Mental Health Therapist Case Tracking System
+// Database: SQLite
+// Generated from: database/schema.sql and docs/DATABASE_SCHEMA.md
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Core Cases Table
+model Case {
+  id               Int      @id @default(autoincrement())
+  caseName         String   @map("case_name")
+  caseNumber       String?  @unique @map("case_number")
+  caseDescription  String?  @map("case_description")
+  status           String   @default("ACTIVE") // ACTIVE, WAITING_LIST, CLOSED
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  caseContacts     CaseContact[]
+  kanbanTasks      KanbanTask[]
+  contactLogs      ContactLog[]
+  evidenceReviews  EvidenceReview[]
+  courtDates       CourtDate[]
+
+  @@index([status], map: "idx_cases_status")
+  @@index([caseName], map: "idx_cases_name")
+  @@map("cases")
+}
+
+// Contacts Table
+model Contact {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String?  @unique
+  phone     String?
+  address   String?
+  notes     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  caseContacts CaseContact[]
+  contactLogs  ContactLog[]
+
+  @@index([name], map: "idx_contacts_name")
+  @@index([email], map: "idx_contacts_email")
+  @@map("contacts")
+}
+
+// Case-Contact Relationships with Dynamic Roles
+model CaseContact {
+  id        Int      @id @default(autoincrement())
+  caseId    Int      @map("case_id")
+  contactId Int      @map("contact_id")
+  role      String   // PARENT, ATTORNEY, GAL, THERAPIST, JUDGE, SOCIAL_WORKER, CHILD, etc.
+  roleNotes String?  @map("role_notes")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  case    Case    @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  contact Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@unique([caseId, contactId])
+  @@index([caseId], map: "idx_case_contacts_case_id")
+  @@index([contactId], map: "idx_case_contacts_contact_id")
+  @@index([role], map: "idx_case_contacts_role")
+  @@map("case_contacts")
+}
+
+// Kanban Tasks for Case Management
+model KanbanTask {
+  id          Int       @id @default(autoincrement())
+  caseId      Int       @map("case_id")
+  title       String
+  description String?
+  status      String    @default("WORKING") // AGREEMENT_SIGNED, CLIENT_PAID, WORKING, PREPARING
+  taskType    String?   @default("OTHER") @map("task_type") // ASSESSMENT, SESSION, DOCUMENTATION, COURT_PREP, COMMUNICATION
+  position    Int       @default(0)
+  dueDate     DateTime? @map("due_date")
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  // Relations
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@index([caseId], map: "idx_kanban_tasks_case_id")
+  @@index([status], map: "idx_kanban_tasks_status")
+  @@map("kanban_tasks")
+}
+
+// Contact Logs for Time Tracking
+model ContactLog {
+  id              Int      @id @default(autoincrement())
+  caseId          Int      @map("case_id")
+  contactId       Int      @map("contact_id")
+  description     String
+  durationMinutes Int      @default(0) @map("duration_minutes")
+  contactDate     DateTime @map("contact_date")
+  contactType     String?  @default("OTHER") @map("contact_type") // SESSION, COMMUNICATION, ASSESSMENT, REVIEW
+  notes           String?
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  case    Case    @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  contact Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@index([caseId], map: "idx_contact_logs_case_id")
+  @@index([contactId], map: "idx_contact_logs_contact_id")
+  @@index([contactDate], map: "idx_contact_logs_date")
+  @@map("contact_logs")
+}
+
+// Evidence Reviews for Court Reporting
+model EvidenceReview {
+  id                  Int      @id @default(autoincrement())
+  caseId              Int      @map("case_id")
+  materialType        String   @map("material_type") // PDF, AUDIO, VIDEO, DOCUMENT, IMAGE, SPREADSHEET, PRESENTATION, EMAIL, TEXT_MESSAGE, MEDICAL_RECORD, LEGAL_DOCUMENT, OTHER
+  materialTitle       String   @map("material_title")
+  materialDescription String?  @map("material_description")
+  reviewDate          DateTime @map("review_date")
+  reviewerNotes       String?  @map("reviewer_notes")
+  fileReference       String?  @map("file_reference") // Reference to external file (not stored in DB)
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@index([caseId], map: "idx_evidence_reviews_case_id")
+  @@index([reviewDate], map: "idx_evidence_reviews_date")
+  @@map("evidence_reviews")
+}
+
+// Court Dates with Prominent Display
+model CourtDate {
+  id          Int      @id @default(autoincrement())
+  caseId      Int      @map("case_id")
+  courtDate   DateTime @map("court_date")
+  description String
+  location    String?
+  judge       String?
+  outcome     String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@index([caseId], map: "idx_court_dates_case_id")
+  @@index([courtDate], map: "idx_court_dates_date")
+  @@map("court_dates")
+}
+
+// System Configuration for Template Values
+model SystemConfig {
+  id          Int      @id @default(autoincrement())
+  configKey   String   @unique @map("config_key")
+  configValue String   @map("config_value")
+  configType  String?  @default("string") @map("config_type") // string, integer, boolean
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("system_config")
+}
+
+// User Sessions (for authentication)
+model UserSession {
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expiresAt    DateTime @map("expires_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@map("user_sessions")
+}
+
+// Activity Audit Trail
+model AuditLog {
+  id         Int      @id @default(autoincrement())
+  tableName  String   @map("table_name")
+  recordId   Int      @map("record_id")
+  action     String   // CREATE, UPDATE, DELETE
+  oldValues  String?  @map("old_values") // JSON string of old values
+  newValues  String?  @map("new_values") // JSON string of new values
+  userId     String?  @map("user_id")
+  timestamp  DateTime @default(now())
+
+  @@index([tableName, recordId], map: "idx_audit_log_record")
+  @@map("audit_log")
+}
