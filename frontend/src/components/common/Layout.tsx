@@ -11,9 +11,9 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-  Avatar,
   Menu,
   MenuItem,
+  Tooltip,
 } from '@mui/material'
 import {
   Menu as MenuIcon,
@@ -23,8 +23,11 @@ import {
   ViewKanban as KanbanIcon,
   Assessment as ReportsIcon,
   AccountCircle,
+  Brightness4,
+  Brightness7,
 } from '@mui/icons-material'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useThemeMode } from '../../App'
 
 const drawerWidth = 240
 
@@ -45,6 +48,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const navigate = useNavigate()
   const location = useLocation()
+  const { mode, toggleColorMode } = useThemeMode()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -88,6 +92,33 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <Box sx={{ display: 'flex' }}>
+      {/* Skip to main content link for accessibility */}
+      <Box
+        component="a"
+        href="#main-content"
+        sx={{
+          position: 'absolute',
+          left: '-999px',
+          width: '1px',
+          height: '1px',
+          top: 'auto',
+          '&:focus': {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: 'auto',
+            height: 'auto',
+            padding: 2,
+            backgroundColor: 'primary.main',
+            color: 'primary.contrastText',
+            zIndex: 9999,
+            textDecoration: 'none',
+          },
+        }}
+      >
+        Skip to main content
+      </Box>
+
       <AppBar
         position="fixed"
         sx={{
@@ -108,6 +139,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             Mental Health Case Management
           </Typography>
+          <Tooltip title={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}>
+            <IconButton
+              onClick={toggleColorMode}
+              color="inherit"
+              aria-label={`Switch to ${mode === 'light' ? 'dark' : 'light'} mode`}
+            >
+              {mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
+          </Tooltip>
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -170,11 +210,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </Box>
       <Box
         component="main"
+        id="main-content"
         sx={{
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
+        role="main"
+        aria-label="Main content"
       >
         <Toolbar />
         {children}
