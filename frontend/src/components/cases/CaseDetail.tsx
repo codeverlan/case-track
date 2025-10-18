@@ -33,6 +33,38 @@ interface TabPanelProps {
   value: number
 }
 
+interface Contact {
+  id: number
+  name: string
+  role: string
+  email: string | null
+}
+
+interface CourtDate {
+  id: number
+  date: string
+  type: string
+  location: string
+}
+
+interface Note {
+  id: number
+  date: string
+  content: string
+}
+
+interface CaseData {
+  id: number
+  name: string
+  status: string
+  createdDate: string
+  lastUpdated: string
+  description: string
+  contacts: Contact[]
+  courtDates: CourtDate[]
+  notes: Note[]
+}
+
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props
   return (
@@ -52,11 +84,12 @@ const CaseDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState(0)
-  const [caseData, setCaseData] = useState<any>(null)
+  const [caseData, setCaseData] = useState<CaseData | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     loadCaseData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   const loadCaseData = async () => {
@@ -202,11 +235,12 @@ const CaseDetail: React.FC = () => {
               </Button>
             </Box>
             <List>
-              {caseData.contacts.map((contact: any, index: number) => (
+              {caseData.contacts.map((contact, index) => (
                 <React.Fragment key={contact.id}>
                   <ListItem
-                    button
+                    component="div"
                     onClick={() => navigate(`/contacts/${contact.id}`)}
+                    sx={{ cursor: 'pointer' }}
                   >
                     <ListItemIcon>
                       <PersonIcon />
@@ -241,7 +275,7 @@ const CaseDetail: React.FC = () => {
               </Button>
             </Box>
             <List>
-              {caseData.courtDates.map((courtDate: any) => (
+              {caseData.courtDates.map((courtDate) => (
                 <ListItem key={courtDate.id}>
                   <ListItemIcon>
                     <EventIcon color="warning" />
@@ -274,7 +308,7 @@ const CaseDetail: React.FC = () => {
               </Button>
             </Box>
             <Stack spacing={2}>
-              {caseData.notes.map((note: any) => (
+              {caseData.notes.map((note) => (
                 <Card key={note.id} variant="outlined">
                   <CardContent>
                     <Typography variant="caption" color="text.secondary">

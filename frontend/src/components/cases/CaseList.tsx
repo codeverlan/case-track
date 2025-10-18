@@ -19,6 +19,7 @@ import {
   Folder as FolderIcon,
 } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import { SPACING, GRID_SPACING } from '../../utils/spacing'
 
 interface Case {
   id: number
@@ -115,7 +116,7 @@ const CaseList: React.FC = () => {
 
   return (
     <Box>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={SPACING.lg}>
         <Typography variant="h4" component="h1">
           Cases
         </Typography>
@@ -129,7 +130,7 @@ const CaseList: React.FC = () => {
         </Button>
       </Box>
 
-      <Box mb={3}>
+      <Box mb={SPACING.lg}>
         <TextField
           fullWidth
           placeholder="Search cases..."
@@ -153,7 +154,7 @@ const CaseList: React.FC = () => {
         />
       </Box>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={GRID_SPACING.default}>
         {filteredCases.map((case_) => (
           <Grid item xs={12} sm={6} md={4} key={case_.id}>
             <Card
@@ -174,10 +175,10 @@ const CaseList: React.FC = () => {
                 }
               }}
             >
-              <CardContent>
-                <Stack spacing={2}>
+              <CardContent sx={{ p: SPACING.md }}>
+                <Stack spacing={SPACING.md}>
                   <Box display="flex" alignItems="flex-start" justifyContent="space-between">
-                    <Box display="flex" alignItems="center" gap={1}>
+                    <Box display="flex" alignItems="center" gap={SPACING.sm}>
                       <FolderIcon color="primary" />
                       <Typography variant="h6" component="h2">
                         {case_.name}
@@ -195,7 +196,7 @@ const CaseList: React.FC = () => {
                       {case_.contactCount} contacts • {case_.taskCount} tasks
                     </Typography>
                     {case_.courtDate && (
-                      <Typography variant="body2" color="warning.main">
+                      <Typography variant="body2" color="warning.main" sx={{ mt: SPACING.xs }}>
                         Court Date: {new Date(case_.courtDate).toLocaleDateString()}
                       </Typography>
                     )}
@@ -218,11 +219,11 @@ const CaseList: React.FC = () => {
       </Grid>
 
       {filteredCases.length === 0 && (
-        <Box textAlign="center" py={8}>
+        <Box textAlign="center" py={SPACING.xxl}>
           <Typography variant="h6" color="text.secondary" gutterBottom>
             No cases found
           </Typography>
-          <Typography variant="body2" color="text.secondary" mb={3}>
+          <Typography variant="body2" color="text.secondary" mb={SPACING.lg}>
             {searchQuery
               ? 'Try adjusting your search terms'
               : 'Create your first case to get started'}

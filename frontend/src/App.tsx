@@ -1,4 +1,4 @@
-import { useMemo, useState, createContext, useContext } from 'react'
+import { useMemo, useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { CssBaseline, Box } from '@mui/material'
@@ -15,20 +15,8 @@ import ContactDetail from './components/contacts/ContactDetail'
 import KanbanBoard from './components/kanban/KanbanBoard'
 import Reports from './components/reports/Reports'
 
-// Theme context for dark mode
-type PaletteMode = 'light' | 'dark'
-
-interface ThemeContextType {
-  mode: PaletteMode
-  toggleColorMode: () => void
-}
-
-export const ThemeContext = createContext<ThemeContextType>({
-  mode: 'light',
-  toggleColorMode: () => {},
-})
-
-export const useThemeMode = () => useContext(ThemeContext)
+// Theme context
+import { ThemeContext, PaletteMode } from './contexts/ThemeContext'
 
 // Theme configuration based on UX-UI-SPECIFICATION.md
 function getDesignTokens(mode: PaletteMode) {

@@ -16,6 +16,7 @@ import {
   Add as AddIcon,
 } from '@mui/icons-material'
 import { useNavigate, useParams } from 'react-router-dom'
+import { SPACING, GRID_SPACING } from '../../utils/spacing'
 
 interface Task {
   id: number
@@ -112,11 +113,11 @@ const KanbanBoard: React.FC = () => {
 
   return (
     <Box>
-      <Box display="flex" alignItems="center" mb={3}>
+      <Box display="flex" alignItems="center" mb={SPACING.lg}>
         <IconButton
           onClick={() => navigate(id ? `/cases/${id}` : '/cases')}
           aria-label="Back to case"
-          sx={{ mr: 2 }}
+          sx={{ mr: SPACING.md }}
         >
           <ArrowBackIcon />
         </IconButton>
@@ -133,37 +134,37 @@ const KanbanBoard: React.FC = () => {
         </Button>
       </Box>
 
-      <Box sx={{ overflowX: 'auto', pb: 2 }}>
-        <Grid container spacing={2} sx={{ minWidth: '800px' }}>
+      <Box sx={{ overflowX: 'auto', pb: SPACING.md }}>
+        <Grid container spacing={GRID_SPACING.compact} sx={{ minWidth: '800px' }}>
           {columns.map((column) => (
             <Grid item xs={12} sm={6} md={3} key={column.id}>
               <Paper
                 elevation={0}
                 sx={{
                   bgcolor: 'background.default',
-                  p: 2,
+                  p: SPACING.md,
                   borderRadius: 2,
                   minHeight: '500px',
                 }}
               >
-                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Box display="flex" justifyContent="space-between" alignItems="center" mb={SPACING.md}>
                   <Typography variant="h6" component="h2">
                     {column.title}
                   </Typography>
                   <Chip label={column.tasks.length} size="small" />
                 </Box>
 
-                <Stack spacing={2}>
+                <Stack spacing={SPACING.md}>
                   {column.tasks.map((task) => (
                     <Card key={task.id}>
-                      <CardContent>
+                      <CardContent sx={{ p: SPACING.md }}>
                         <Typography variant="subtitle2" component="h3">
                           {task.title}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary" mb={2}>
+                        <Typography variant="body2" color="text.secondary" mb={SPACING.sm}>
                           {task.description}
                         </Typography>
-                        <Stack direction="row" spacing={1}>
+                        <Stack direction="row" spacing={SPACING.sm}>
                           <Chip
                             label={task.priority}
                             size="small"

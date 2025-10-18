@@ -26,14 +26,42 @@ import {
 } from '@mui/icons-material'
 import { useNavigate, useParams } from 'react-router-dom'
 
+interface ContactRole {
+  caseId: number
+  caseName: string
+  role: string
+  startDate: string
+}
+
+interface Interaction {
+  id: number
+  date: string
+  caseName: string
+  type: string
+  duration: number
+  notes: string
+}
+
+interface ContactData {
+  id: number
+  name: string
+  email: string
+  phone: string
+  address: string
+  roles: ContactRole[]
+  hasConflict: boolean
+  interactions: Interaction[]
+}
+
 const ContactDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const [contactData, setContactData] = useState<any>(null)
+  const [contactData, setContactData] = useState<ContactData | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     loadContactData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   const loadContactData = async () => {
@@ -176,11 +204,12 @@ const ContactDetail: React.FC = () => {
                 Case Roles
               </Typography>
               <List>
-                {contactData.roles.map((role: any, index: number) => (
+                {contactData.roles.map((role, index) => (
                   <React.Fragment key={role.caseId}>
                     <ListItem
-                      button
+                      component="div"
                       onClick={() => navigate(`/cases/${role.caseId}`)}
+                      sx={{ cursor: 'pointer' }}
                     >
                       <ListItemText
                         primary={
@@ -220,7 +249,7 @@ const ContactDetail: React.FC = () => {
                 </Button>
               </Box>
               <Stack spacing={2}>
-                {contactData.interactions.map((interaction: any) => (
+                {contactData.interactions.map((interaction) => (
                   <Card key={interaction.id} variant="outlined">
                     <CardContent>
                       <Grid container spacing={2}>

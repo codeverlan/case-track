@@ -23,6 +23,7 @@ import {
   ArrowForward as ArrowForwardIcon,
 } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
+import { SPACING, CARD_SPACING, GRID_SPACING } from '../../utils/spacing'
 
 interface CourtDate {
   id: number
@@ -182,7 +183,7 @@ const Dashboard: React.FC = () => {
       <Alert
         severity="warning"
         icon={<EventIcon />}
-        sx={{ mb: 3 }}
+        sx={{ mb: SPACING.lg }}
         action={
           <Button
             color="inherit"
@@ -196,19 +197,19 @@ const Dashboard: React.FC = () => {
         You have {upcomingCourtDates.length} upcoming court date{upcomingCourtDates.length !== 1 ? 's' : ''} in the next 14 days.
       </Alert>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={GRID_SPACING.default}>
         {/* Upcoming Court Dates */}
         <Grid item xs={12} md={6}>
           <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <Box display="flex" alignItems="center" mb={2}>
-                <EventIcon color="error" sx={{ mr: 1 }} />
+            <CardContent sx={{ p: CARD_SPACING.padding }}>
+              <Box display="flex" alignItems="center" mb={SPACING.md}>
+                <EventIcon color="error" sx={{ mr: SPACING.sm }} />
                 <Typography variant="h6">Upcoming Court Dates</Typography>
               </Box>
               <List>
                 {upcomingCourtDates.map((courtDate, index) => (
                   <React.Fragment key={courtDate.id}>
-                    <ListItem>
+                    <ListItem sx={{ py: SPACING.md }}>
                       <ListItemIcon>
                         <Chip
                           label={`${courtDate.daysUntil} day${courtDate.daysUntil !== 1 ? 's' : ''}`}
@@ -242,7 +243,7 @@ const Dashboard: React.FC = () => {
                 ))}
               </List>
               {upcomingCourtDates.length === 0 && (
-                <Box textAlign="center" py={2}>
+                <Box textAlign="center" py={SPACING.md}>
                   <Typography color="text.secondary">
                     No upcoming court dates
                   </Typography>
@@ -255,15 +256,15 @@ const Dashboard: React.FC = () => {
         {/* Recent Cases */}
         <Grid item xs={12} md={6}>
           <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <Box display="flex" alignItems="center" mb={2}>
-                <CasesIcon color="primary" sx={{ mr: 1 }} />
+            <CardContent sx={{ p: CARD_SPACING.padding }}>
+              <Box display="flex" alignItems="center" mb={SPACING.md}>
+                <CasesIcon color="primary" sx={{ mr: SPACING.sm }} />
                 <Typography variant="h6">Recent Cases</Typography>
               </Box>
               <List>
                 {recentCases.map((case_, index) => (
                   <React.Fragment key={case_.id}>
-                    <ListItem>
+                    <ListItem sx={{ py: SPACING.md }}>
                       <ListItemIcon>
                         <Chip
                           label={case_.status}
@@ -295,7 +296,7 @@ const Dashboard: React.FC = () => {
                   </React.Fragment>
                 ))}
               </List>
-              <Box mt={2}>
+              <Box mt={SPACING.md}>
                 <Button
                   fullWidth
                   variant="outlined"
@@ -312,15 +313,15 @@ const Dashboard: React.FC = () => {
         {/* Recent Activities */}
         <Grid item xs={12}>
           <Card>
-            <CardContent>
-              <Box display="flex" alignItems="center" mb={2}>
-                <ScheduleIcon color="secondary" sx={{ mr: 1 }} />
+            <CardContent sx={{ p: CARD_SPACING.padding }}>
+              <Box display="flex" alignItems="center" mb={SPACING.md}>
+                <ScheduleIcon color="secondary" sx={{ mr: SPACING.sm }} />
                 <Typography variant="h6">Recent Contact Activities</Typography>
               </Box>
               <List>
                 {recentActivities.map((activity, index) => (
                   <React.Fragment key={activity.id}>
-                    <ListItem>
+                    <ListItem sx={{ py: SPACING.md }}>
                       <ListItemIcon>
                         <PeopleIcon color="action" />
                       </ListItemIcon>
@@ -342,7 +343,7 @@ const Dashboard: React.FC = () => {
                   </React.Fragment>
                 ))}
               </List>
-              <Box mt={2}>
+              <Box mt={SPACING.md}>
                 <Button
                   fullWidth
                   variant="outlined"

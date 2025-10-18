@@ -27,7 +27,8 @@ import {
   Brightness7,
 } from '@mui/icons-material'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useThemeMode } from '../../App'
+import { useThemeMode } from '../../contexts/ThemeContext'
+import { SPACING } from '../../utils/spacing'
 
 const drawerWidth = 240
 
@@ -108,7 +109,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             left: 0,
             width: 'auto',
             height: 'auto',
-            padding: 2,
+            padding: SPACING.md,
             backgroundColor: 'primary.main',
             color: 'primary.contrastText',
             zIndex: 9999,
@@ -132,7 +133,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: SPACING.md, display: { sm: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
@@ -213,7 +214,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         id="main-content"
         sx={{
           flexGrow: 1,
-          p: 3,
+          p: SPACING.lg,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
         role="main"
