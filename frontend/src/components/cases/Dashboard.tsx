@@ -57,6 +57,8 @@ const Dashboard: React.FC = () => {
   const [recentCases, setRecentCases] = useState<RecentCase[]>([])
   const [recentActivities, setRecentActivities] = useState<ContactActivity[]>([])
   const [loading, setLoading] = useState(true)
+  const [totalIncome, setTotalIncome] = useState(0)
+  const [totalHours, setTotalHours] = useState(0)
 
   useEffect(() => {
     // Load dashboard data
@@ -145,6 +147,10 @@ const Dashboard: React.FC = () => {
         },
       ])
 
+      // Sample total income and hours calculation
+      setTotalIncome(5250.00)
+      setTotalHours(35.0)
+
       setLoading(false)
     } catch (error) {
       console.error('Error loading dashboard data:', error)
@@ -178,6 +184,39 @@ const Dashboard: React.FC = () => {
       <Typography variant="h4" gutterBottom>
         Dashboard
       </Typography>
+
+      {/* Total Income Summary */}
+      <Card sx={{ mb: SPACING.lg, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+        <CardContent sx={{ p: CARD_SPACING.padding }}>
+          <Grid container spacing={GRID_SPACING.default} alignItems="center">
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ color: 'white', opacity: 0.9 }}>
+                Total Income
+              </Typography>
+              <Typography variant="h3" sx={{ color: 'white', fontWeight: 'bold' }}>
+                ${totalIncome.toFixed(2)}
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'white', opacity: 0.8, mt: SPACING.sm }}>
+                {totalHours.toFixed(2)} hours tracked across all cases
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box textAlign={{ xs: 'left', md: 'right' }}>
+                <Button
+                  variant="contained"
+                  sx={{ 
+                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                    '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.3)' }
+                  }}
+                  onClick={() => navigate('/reports')}
+                >
+                  View Detailed Report
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
 
       {/* Upcoming Due Dates Alert */}
       <Alert

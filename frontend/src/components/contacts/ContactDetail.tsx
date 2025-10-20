@@ -15,6 +15,15 @@ import {
   Stack,
   Avatar,
   Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material'
 import {
   ArrowBack as ArrowBackIcon,
@@ -25,6 +34,16 @@ import {
   Folder as FolderIcon,
 } from '@mui/icons-material'
 import { useNavigate, useParams } from 'react-router-dom'
+
+const ACTIVITY_CATEGORIES = [
+  { value: 'PHONE', label: 'Phone' },
+  { value: 'VIDEO', label: 'Video' },
+  { value: 'IN_PERSON', label: 'In person' },
+  { value: 'DOCUMENT_REVIEW', label: 'Document Review' },
+  { value: 'COLLATERALS', label: 'Speaking with collaterals' },
+  { value: 'WRITING', label: 'Writing' },
+  { value: 'OTHER', label: 'Other' },
+]
 
 interface ContactRole {
   caseId: number
@@ -39,6 +58,7 @@ interface Interaction {
   caseName: string
   type: string
   duration: number
+  hoursSpent?: number
   notes: string
 }
 
@@ -58,6 +78,14 @@ const ContactDetail: React.FC = () => {
   const navigate = useNavigate()
   const [contactData, setContactData] = useState<ContactData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [activityForm, setActivityForm] = useState({
+    caseId: '',
+    type: 'PHONE',
+    hoursSpent: '',
+    description: '',
+    notes: '',
+  })
 
   useEffect(() => {
     loadContactData()
@@ -93,16 +121,18 @@ const ContactDetail: React.FC = () => {
             id: 1,
             date: '2024-10-10',
             caseName: 'Johnson Family Reunification',
-            type: 'Phone Call',
+            type: 'Phone',
             duration: 30,
+            hoursSpent: 0.5,
             notes: 'Discussed upcoming court date and assessment progress.',
           },
           {
             id: 2,
             date: '2024-10-05',
             caseName: 'Williams Parenting Assessment',
-            type: 'Email',
+            type: 'Video',
             duration: 0,
+            hoursSpent: 1.0,
             notes: 'Sent initial assessment questionnaire.',
           },
         ],
@@ -112,6 +142,27 @@ const ContactDetail: React.FC = () => {
       console.error('Error loading contact data:', error)
       setLoading(false)
     }
+  }
+
+  const handleOpenDialog = () => {
+    setDialogOpen(true)
+  }
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false)
+    setActivityForm({
+      caseId: '',
+      type: 'PHONE',
+      hoursSpent: '',
+      description: '',
+      notes: '',
+    })
+  }
+
+  const handleSaveActivity = () => {
+    // TODO: Call API to save activity
+    console.log('Saving activity:', activityForm)
+    handleCloseDialog()
   }
 
   if (loading) {
@@ -244,8 +295,8 @@ const ContactDetail: React.FC = () => {
             <CardContent>
               <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                 <Typography variant="h6">Recent Interactions</Typography>
-                <Button variant="outlined" size="small">
-                  Log Interaction
+                <Button variant="outlined" size="small" onClick={handleOpenDialog}>
+                  Log Activity
                 </Button>
               </Box>
               <Stack spacing={2}>
@@ -263,9 +314,9 @@ const ContactDetail: React.FC = () => {
                           <Typography variant="body2">{interaction.notes}</Typography>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                          {interaction.duration > 0 && (
+                          {interaction.hoursSpent !== undefined && interaction.hoursSpent > 0 && (
                             <Chip
-                              label={`${interaction.duration} min`}
+                              label={`${interaction.hoursSpent} hrs`}
                               size="small"
                               color="primary"
                               variant="outlined"
@@ -281,6 +332,77 @@ const ContactDetail: React.FC = () => {
           </Card>
         </Grid>
       </Grid>
+
+      {/* Log Activity Dialog */}
+      <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
+        <DialogTitle>Log Contact Activity</DialogTitle>
+        <DialogContent>
+          <Stack spacing={3} sx={{ mt: 2 }}>
+            <FormControl fullWidth>
+              <InputLabel>Case</InputLabel>
+              <Select
+                value={activityForm.caseId}
+                label="Case"
+                onChange={(e) => setActivityForm({ ...activityForm, caseId: e.target.value })}
+              >
+                {contactData?.roles.map((role) => (
+                  <MenuItem key={role.caseId} value={role.caseId}>
+                    {role.caseName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <InputLabel>Activity Type</InputLabel>
+              <Select
+                value={activityForm.type}
+                label="Activity Type"
+                onChange={(e) => setActivityForm({ ...activityForm, type: e.target.value })}
+              >
+                {ACTIVITY_CATEGORIES.map((category) => (
+                  <MenuItem key={category.value} value={category.value}>
+                    {category.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <TextField
+              fullWidth
+              label="Hours Spent"
+              type="number"
+              value={activityForm.hoursSpent}
+              onChange={(e) => setActivityForm({ ...activityForm, hoursSpent: e.target.value })}
+              inputProps={{ step: 0.25, min: 0 }}
+              helperText="Enter hours as decimal (e.g., 1, 1.5, 0.5)"
+            />
+
+            <TextField
+              fullWidth
+              label="Description"
+              value={activityForm.description}
+              onChange={(e) => setActivityForm({ ...activityForm, description: e.target.value })}
+              required
+            />
+
+            <TextField
+              fullWidth
+              label="Notes"
+              multiline
+              rows={3}
+              value={activityForm.notes}
+              onChange={(e) => setActivityForm({ ...activityForm, notes: e.target.value })}
+            />
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancel</Button>
+          <Button onClick={handleSaveActivity} variant="contained" disabled={!activityForm.caseId || !activityForm.description}>
+            Save Activity
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   )
 }
