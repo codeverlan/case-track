@@ -105,6 +105,13 @@ router.get('/:id', async (req: Request, res: Response) => {
       ORDER BY cl.contact_date DESC
     `, [caseId])
 
+    // Calculate total hours and income
+    const totalHours = contactLogs.reduce((sum: number, log: any) => {
+      return sum + (log.hours_spent || 0)
+    }, 0)
+
+    const totalIncome = totalHours * (caseDetail.hourly_rate || 0)
+
     // Get evidence reviews for this case
     const evidenceReviews = await DatabaseService.query(`
       SELECT * FROM evidence_reviews
@@ -127,7 +134,9 @@ router.get('/:id', async (req: Request, res: Response) => {
         tasks,
         contactLogs,
         evidenceReviews,
-        courtDates
+        courtDates,
+        totalHours,
+        totalIncome
       }
     })
   } catch (error) {
@@ -142,7 +151,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 // POST /api/cases - Create new case
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { case_name, case_number, case_description, status = 'ACTIVE' } = req.body
+    const { case_name, case_number, case_description, status = 'ACTIVE', hourly_rate = 0.0 } = req.body
 
     // Validation
     if (!case_name) {
@@ -167,9 +176,9 @@ router.post('/', async (req: Request, res: Response) => {
     }
 
     const result = await DatabaseService.run(`
-      INSERT INTO cases (case_name, case_number, case_description, status)
-      VALUES (?, ?, ?, ?)
-    `, [case_name, case_number, case_description, status])
+      INSERT INTO cases (case_name, case_number, case_description, status, hourly_rate)
+      VALUES (?, ?, ?, ?, ?)
+    `, [case_name, case_number, case_description, status, hourly_rate])
 
     const newCase = await DatabaseService.get(
       'SELECT * FROM cases WHERE id = ?',
@@ -194,7 +203,7 @@ router.post('/', async (req: Request, res: Response) => {
 router.put('/:id', async (req: Request, res: Response) => {
   try {
     const caseId = req.params.id
-    const { case_name, case_number, case_description, status } = req.body
+    const { case_name, case_number, case_description, status, hourly_rate } = req.body
 
     // Check if case exists
     const existingCase = await DatabaseService.get(
@@ -241,6 +250,10 @@ router.put('/:id', async (req: Request, res: Response) => {
     if (status !== undefined) {
       updates.push('status = ?')
       params.push(status)
+    }
+    if (hourly_rate !== undefined) {
+      updates.push('hourly_rate = ?')
+      params.push(hourly_rate)
     }
 
     if (updates.length === 0) {
@@ -341,6 +354,55 @@ router.get('/:id/contacts/:contactId/cross-case', async (req: Request, res: Resp
     res.status(500).json({
       success: false,
       error: 'Failed to fetch cross-case contacts'
+    })
+  }
+})
+
+// GET /api/cases/dashboard/summary - Get dashboard summary with total income
+router.get('/dashboard/summary', async (req: Request, res: Response) => {
+  try {
+    // Get all active cases with their hourly rates
+    const cases = await DatabaseService.query(`
+      SELECT id, case_name, hourly_rate FROM cases WHERE status = 'ACTIVE'
+    `)
+
+    // Get all contact logs with hours spent
+    const contactLogs = await DatabaseService.query(`
+      SELECT case_id, hours_spent FROM contact_logs
+    `)
+
+    // Calculate total hours per case
+    const caseHours: { [key: number]: number } = {}
+    contactLogs.forEach((log: any) => {
+      if (!caseHours[log.case_id]) {
+        caseHours[log.case_id] = 0
+      }
+      caseHours[log.case_id] += log.hours_spent || 0
+    })
+
+    // Calculate total income
+    let totalIncome = 0
+    let totalHours = 0
+    cases.forEach((caseItem: any) => {
+      const hours = caseHours[caseItem.id] || 0
+      const rate = caseItem.hourly_rate || 0
+      totalIncome += hours * rate
+      totalHours += hours
+    })
+
+    res.json({
+      success: true,
+      data: {
+        totalIncome,
+        totalHours,
+        activeCases: cases.length
+      }
+    })
+  } catch (error) {
+    console.error('Error fetching dashboard summary:', error)
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch dashboard summary'
     })
   }
 })

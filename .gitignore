@@ -15,6 +15,9 @@ build/
 
 # Database
 *.db
+*.db-shm
+*.db-wal
+*.db-journal
 *.sqlite
 *.sqlite3
 database/backups/

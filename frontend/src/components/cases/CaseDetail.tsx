@@ -60,9 +60,12 @@ interface CaseData {
   createdDate: string
   lastUpdated: string
   description: string
+  hourlyRate?: number
   contacts: Contact[]
   courtDates: CourtDate[]
   notes: Note[]
+  totalHours?: number
+  totalIncome?: number
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -102,6 +105,9 @@ const CaseDetail: React.FC = () => {
         createdDate: '2024-09-15',
         lastUpdated: '2024-10-10',
         description: 'Court-ordered reunification therapy for the Johnson family.',
+        hourlyRate: 150.00,
+        totalHours: 12.5,
+        totalIncome: 1875.00,
         contacts: [
           { id: 1, name: 'Sarah Johnson', role: 'Parent', email: 'sarah.j@example.com' },
           { id: 2, name: 'Michael Johnson', role: 'Child', email: null },
@@ -186,7 +192,7 @@ const CaseDetail: React.FC = () => {
       <Card sx={{ mb: 3 }}>
         <CardContent>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={3}>
               <Typography variant="body2" color="text.secondary">
                 Created
               </Typography>
@@ -194,12 +200,31 @@ const CaseDetail: React.FC = () => {
                 {new Date(caseData.createdDate).toLocaleDateString()}
               </Typography>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={3}>
               <Typography variant="body2" color="text.secondary">
                 Last Updated
               </Typography>
               <Typography variant="body1">
                 {new Date(caseData.lastUpdated).toLocaleDateString()}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant="body2" color="text.secondary">
+                Hourly Rate
+              </Typography>
+              <Typography variant="body1">
+                ${caseData.hourlyRate?.toFixed(2) || '0.00'}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Typography variant="body2" color="text.secondary">
+                Total Income
+              </Typography>
+              <Typography variant="h6" color="primary.main">
+                ${caseData.totalIncome?.toFixed(2) || '0.00'}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                {caseData.totalHours?.toFixed(2) || '0'} hours
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -219,7 +244,7 @@ const CaseDetail: React.FC = () => {
           aria-label="Case detail tabs"
         >
           <Tab label="Contacts" id="case-tab-0" aria-controls="case-tabpanel-0" />
-          <Tab label="Court Dates" id="case-tab-1" aria-controls="case-tabpanel-1" />
+          <Tab label="Due Dates" id="case-tab-1" aria-controls="case-tabpanel-1" />
           <Tab label="Notes" id="case-tab-2" aria-controls="case-tabpanel-2" />
           <Tab label="Kanban" id="case-tab-3" aria-controls="case-tabpanel-3" />
         </Tabs>
@@ -269,9 +294,9 @@ const CaseDetail: React.FC = () => {
         <Card>
           <CardContent>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-              <Typography variant="h6">Court Dates</Typography>
+              <Typography variant="h6">Due Dates</Typography>
               <Button startIcon={<EventIcon />} variant="outlined" size="small">
-                Add Court Date
+                Add Due Date
               </Button>
             </Box>
             <List>
