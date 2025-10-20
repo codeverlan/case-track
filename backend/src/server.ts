@@ -9,11 +9,7 @@ import { fileURLToPath } from 'url'
 
 // Import routes
 import casesRouter from './controllers/caseController'
-import contactsRouter from './controllers/contactController'
-import kanbanRouter from './controllers/kanbanController'
-import evidenceRouter from './controllers/evidenceController'
-import reportsRouter from './controllers/reportController'
-import courtDatesRouter from './controllers/courtDateController'
+import contactLogsRouter from './controllers/contactLogController'
 import templatesRouter from './controllers/templateController'
 
 // Database setup
@@ -68,11 +64,7 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/cases', casesRouter)
-app.use('/api/contacts', contactsRouter)
-app.use('/api/kanban', kanbanRouter)
-app.use('/api/evidence', evidenceRouter)
-app.use('/api/reports', reportsRouter)
-app.use('/api/court-dates', courtDatesRouter)
+app.use('/api/contact-logs', contactLogsRouter)
 app.use('/api/templates', templatesRouter)
 
 // Serve frontend in production
