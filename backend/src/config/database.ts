@@ -6,8 +6,8 @@ import fs from 'fs'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Database file path
-const dbPath = path.join(__dirname, '../../database/case-track.db')
+// Database file path - must match DATABASE_URL in .env
+const dbPath = path.join(__dirname, '../../database/casetrack.db')
 const schemaPath = path.join(__dirname, '../../../database/schema.sql')
 const seedPath = path.join(__dirname, '../../../database/seeds/sample_data.sql')
 
@@ -43,10 +43,8 @@ export async function initializeDatabase(): Promise<void> {
     const result = db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all()
 
     if (result.length === 0) {
-      console.log('🔧 Initializing database schema...')
-      await initializeSchema()
-      await seedDatabase()
-      console.log('✅ Database initialized with sample data')
+      console.log('🔧 Database schema is empty - please run "npm run prisma:push" or "npx prisma migrate deploy" to initialize')
+      console.log('📋 Database connected but not initialized')
     } else {
       console.log('📋 Database already initialized')
     }
