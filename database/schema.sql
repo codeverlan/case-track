@@ -8,6 +8,7 @@ CREATE TABLE cases (
     case_number TEXT UNIQUE,
     case_description TEXT,
     status TEXT NOT NULL CHECK(status IN ('ACTIVE', 'WAITING_LIST', 'CLOSED')) DEFAULT 'ACTIVE',
+    hourly_rate REAL DEFAULT 0.0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -61,6 +62,7 @@ CREATE TABLE contact_logs (
     contact_id INTEGER NOT NULL,
     description TEXT NOT NULL,
     duration_minutes INTEGER NOT NULL DEFAULT 0,
+    hours_spent REAL DEFAULT 0.0,
     contact_date DATETIME NOT NULL,
     contact_type TEXT DEFAULT 'OTHER',
     notes TEXT,

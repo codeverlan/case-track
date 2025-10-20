@@ -20,18 +20,18 @@ export const SPACING = {
  * Card spacing guidelines
  */
 export const CARD_SPACING = {
-  padding: SPACING.md,      // Standard card content padding
+  padding: SPACING.lg,      // Increased card content padding for better spacing
   margin: SPACING.lg,       // Margin between cards
-  innerSpacing: SPACING.md, // Spacing between card elements
+  innerSpacing: SPACING.lg, // Increased spacing between card elements
 } as const;
 
 /**
  * List spacing guidelines
  */
 export const LIST_SPACING = {
-  itemPadding: SPACING.md,  // Padding for list items
-  itemGap: SPACING.sm,      // Gap between list items
-  iconMargin: SPACING.md,   // Margin for list item icons
+  itemPadding: SPACING.lg,  // Increased padding for list items
+  itemGap: SPACING.md,      // Gap between list items
+  iconMargin: SPACING.lg,   // Increased margin for list item icons
 } as const;
 
 /**
@@ -39,8 +39,8 @@ export const LIST_SPACING = {
  */
 export const LAYOUT_SPACING = {
   sectionMargin: SPACING.lg,   // Margin between major sections
-  elementMargin: SPACING.md,   // Margin between elements
-  compactMargin: SPACING.sm,   // Compact margin for closely related items
+  elementMargin: SPACING.lg,   // Increased margin between elements
+  compactMargin: SPACING.md,   // Compact margin for closely related items
 } as const;
 
 /**

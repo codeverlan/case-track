@@ -18,6 +18,7 @@ model Case {
   caseNumber       String?  @unique @map("case_number")
   caseDescription  String?  @map("case_description")
   status           String   @default("ACTIVE") // ACTIVE, WAITING_LIST, CLOSED
+  hourlyRate       Float?   @default(0.0) @map("hourly_rate") // Dollar value per hour
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")
 
@@ -103,8 +104,9 @@ model ContactLog {
   contactId       Int      @map("contact_id")
   description     String
   durationMinutes Int      @default(0) @map("duration_minutes")
+  hoursSpent      Float?   @default(0.0) @map("hours_spent") // Hours spent on activity (decimal)
   contactDate     DateTime @map("contact_date")
-  contactType     String?  @default("OTHER") @map("contact_type") // SESSION, COMMUNICATION, ASSESSMENT, REVIEW
+  contactType     String?  @default("OTHER") @map("contact_type") // PHONE, VIDEO, IN_PERSON, DOCUMENT_REVIEW, COLLATERALS, WRITING, OTHER
   notes           String?
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")

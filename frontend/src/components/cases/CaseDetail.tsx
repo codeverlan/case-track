@@ -219,7 +219,7 @@ const CaseDetail: React.FC = () => {
           aria-label="Case detail tabs"
         >
           <Tab label="Contacts" id="case-tab-0" aria-controls="case-tabpanel-0" />
-          <Tab label="Court Dates" id="case-tab-1" aria-controls="case-tabpanel-1" />
+          <Tab label="Due Dates" id="case-tab-1" aria-controls="case-tabpanel-1" />
           <Tab label="Notes" id="case-tab-2" aria-controls="case-tabpanel-2" />
           <Tab label="Kanban" id="case-tab-3" aria-controls="case-tabpanel-3" />
         </Tabs>
@@ -269,9 +269,9 @@ const CaseDetail: React.FC = () => {
         <Card>
           <CardContent>
             <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-              <Typography variant="h6">Court Dates</Typography>
+              <Typography variant="h6">Due Dates</Typography>
               <Button startIcon={<EventIcon />} variant="outlined" size="small">
-                Add Court Date
+                Add Due Date
               </Button>
             </Box>
             <List>

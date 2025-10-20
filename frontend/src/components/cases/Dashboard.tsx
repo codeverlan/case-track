@@ -179,7 +179,7 @@ const Dashboard: React.FC = () => {
         Dashboard
       </Typography>
 
-      {/* Court Dates Alert */}
+      {/* Upcoming Due Dates Alert */}
       <Alert
         severity="warning"
         icon={<EventIcon />}
@@ -194,22 +194,22 @@ const Dashboard: React.FC = () => {
           </Button>
         }
       >
-        You have {upcomingCourtDates.length} upcoming court date{upcomingCourtDates.length !== 1 ? 's' : ''} in the next 14 days.
+        You have {upcomingCourtDates.length} upcoming due date{upcomingCourtDates.length !== 1 ? 's' : ''} in the next 14 days.
       </Alert>
 
       <Grid container spacing={GRID_SPACING.default}>
-        {/* Upcoming Court Dates */}
+        {/* Upcoming Due Dates */}
         <Grid item xs={12} md={6}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ p: CARD_SPACING.padding }}>
-              <Box display="flex" alignItems="center" mb={SPACING.md}>
-                <EventIcon color="error" sx={{ mr: SPACING.sm }} />
-                <Typography variant="h6">Upcoming Court Dates</Typography>
+              <Box display="flex" alignItems="center" mb={SPACING.lg}>
+                <EventIcon color="error" sx={{ mr: SPACING.md }} />
+                <Typography variant="h6">Upcoming Due Dates</Typography>
               </Box>
               <List>
                 {upcomingCourtDates.map((courtDate, index) => (
                   <React.Fragment key={courtDate.id}>
-                    <ListItem sx={{ py: SPACING.md }}>
+                    <ListItem sx={{ py: SPACING.lg }}>
                       <ListItemIcon>
                         <Chip
                           label={`${courtDate.daysUntil} day${courtDate.daysUntil !== 1 ? 's' : ''}`}
@@ -222,10 +222,10 @@ const Dashboard: React.FC = () => {
                         primary={courtDate.caseName}
                         secondary={
                           <>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant="body2" color="text.secondary" sx={{ mt: SPACING.sm }}>
                               {courtDate.description}
                             </Typography>
-                            <Typography variant="caption" color="text.secondary">
+                            <Typography variant="caption" color="text.secondary" sx={{ mt: SPACING.xs, display: 'block' }}>
                               {new Date(courtDate.courtDate).toLocaleDateString()} • {courtDate.location}
                             </Typography>
                           </>
@@ -245,7 +245,7 @@ const Dashboard: React.FC = () => {
               {upcomingCourtDates.length === 0 && (
                 <Box textAlign="center" py={SPACING.md}>
                   <Typography color="text.secondary">
-                    No upcoming court dates
+                    No upcoming due dates
                   </Typography>
                 </Box>
               )}
@@ -257,14 +257,14 @@ const Dashboard: React.FC = () => {
         <Grid item xs={12} md={6}>
           <Card sx={{ height: '100%' }}>
             <CardContent sx={{ p: CARD_SPACING.padding }}>
-              <Box display="flex" alignItems="center" mb={SPACING.md}>
-                <CasesIcon color="primary" sx={{ mr: SPACING.sm }} />
+              <Box display="flex" alignItems="center" mb={SPACING.lg}>
+                <CasesIcon color="primary" sx={{ mr: SPACING.md }} />
                 <Typography variant="h6">Recent Cases</Typography>
               </Box>
               <List>
                 {recentCases.map((case_, index) => (
                   <React.Fragment key={case_.id}>
-                    <ListItem sx={{ py: SPACING.md }}>
+                    <ListItem sx={{ py: SPACING.lg }}>
                       <ListItemIcon>
                         <Chip
                           label={case_.status}
@@ -276,10 +276,10 @@ const Dashboard: React.FC = () => {
                         primary={case_.name}
                         secondary={
                           <>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant="body2" color="text.secondary" sx={{ mt: SPACING.sm }}>
                               {case_.taskCount} active task{case_.taskCount !== 1 ? 's' : ''}
                             </Typography>
-                            <Typography variant="caption" color="text.secondary">
+                            <Typography variant="caption" color="text.secondary" sx={{ mt: SPACING.xs, display: 'block' }}>
                               Updated {new Date(case_.lastUpdated).toLocaleDateString()}
                             </Typography>
                           </>
@@ -314,14 +314,14 @@ const Dashboard: React.FC = () => {
         <Grid item xs={12}>
           <Card>
             <CardContent sx={{ p: CARD_SPACING.padding }}>
-              <Box display="flex" alignItems="center" mb={SPACING.md}>
-                <ScheduleIcon color="secondary" sx={{ mr: SPACING.sm }} />
+              <Box display="flex" alignItems="center" mb={SPACING.lg}>
+                <ScheduleIcon color="secondary" sx={{ mr: SPACING.md }} />
                 <Typography variant="h6">Recent Contact Activities</Typography>
               </Box>
               <List>
                 {recentActivities.map((activity, index) => (
                   <React.Fragment key={activity.id}>
-                    <ListItem sx={{ py: SPACING.md }}>
+                    <ListItem sx={{ py: SPACING.lg }}>
                       <ListItemIcon>
                         <PeopleIcon color="action" />
                       </ListItemIcon>
@@ -329,10 +329,10 @@ const Dashboard: React.FC = () => {
                         primary={`${activity.contactName} - ${activity.caseName}`}
                         secondary={
                           <>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant="body2" color="text.secondary" sx={{ mt: SPACING.sm }}>
                               {activity.description}
                             </Typography>
-                            <Typography variant="caption" color="text.secondary">
+                            <Typography variant="caption" color="text.secondary" sx={{ mt: SPACING.xs, display: 'block' }}>
                               {activity.duration} minutes • {new Date(activity.date).toLocaleDateString()}
                             </Typography>
                           </>

@@ -1,0 +1,39 @@
+{
+  "activityCategories": [
+    {
+      "value": "PHONE",
+      "label": "Phone",
+      "description": "Phone call with contact"
+    },
+    {
+      "value": "VIDEO",
+      "label": "Video",
+      "description": "Video call or conference"
+    },
+    {
+      "value": "IN_PERSON",
+      "label": "In person",
+      "description": "In-person meeting or session"
+    },
+    {
+      "value": "DOCUMENT_REVIEW",
+      "label": "Document Review",
+      "description": "Reviewing documents or materials"
+    },
+    {
+      "value": "COLLATERALS",
+      "label": "Speaking with collaterals",
+      "description": "Communication with collateral contacts"
+    },
+    {
+      "value": "WRITING",
+      "label": "Writing",
+      "description": "Writing reports, notes, or documentation"
+    },
+    {
+      "value": "OTHER",
+      "label": "Other",
+      "description": "Other activity type"
+    }
+  ]
+}
