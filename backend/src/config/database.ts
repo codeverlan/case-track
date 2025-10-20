@@ -8,8 +8,8 @@ const __dirname = path.dirname(__filename)
 
 // Database file path
 const dbPath = path.join(__dirname, '../../database/case-track.db')
-const schemaPath = path.join(__dirname, '../../database/schema.sql')
-const seedPath = path.join(__dirname, '../../database/seeds/sample_data.sql')
+const schemaPath = path.join(__dirname, '../../../database/schema.sql')
+const seedPath = path.join(__dirname, '../../../database/seeds/sample_data.sql')
 
 let db: Database.Database | null = null
 
